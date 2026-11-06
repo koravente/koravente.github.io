@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B3FA8">
+<meta name="description" content="Kora Vente : suis tes commandes WhatsApp, ton bénéfice et envoie des messages clients prêts à l'emploi.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kora Vente">
+<meta property="og:description" content="Suis tes commandes WhatsApp, ton bénéfice et envoie des messages clients prêts à l'emploi.">
+<meta property="og:url" content="https://koravente.github.io/">
+<meta property="og:image" content="https://koravente.github.io/icon-512.png">
+<meta name="twitter:card" content="summary">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Kora Vente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: une colonne mobile d'abord, barre d'onglets en bas, feuilles qui montent du bas pour les actions */
+:root{
+  --bg:#EEF2F9; --surface:#FFFFFF; --surface2:#E4EAF6; --ink:#0A1A3F; --muted:#56637F; --line:#CDD6E8;
+  --accent:#0B3FA8; --on-accent:#FFFFFF; --accent-soft:#DCE6FB;
+  --ok:#1A7F4B; --ok-soft:#DDF3E7; --warn:#9A5B00; --warn-soft:#FFEBC7; --bad:#B3261E; --bad-soft:#FADAD7;
+  --font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1226; --surface:#131E3A; --surface2:#1B2848; --ink:#E8EEFC; --muted:#9BA9C9; --line:#2A3961;
+  --accent:#7DA6FF; --on-accent:#0A1226; --accent-soft:#1D2D57;
+  --ok:#5BD08F; --ok-soft:#14352A; --warn:#F2B552; --warn-soft:#3A2D0F; --bad:#FF8A80; --bad-soft:#3E1B19; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A1226; --surface:#131E3A; --surface2:#1B2848; --ink:#E8EEFC; --muted:#9BA9C9; --line:#2A3961;
+  --accent:#7DA6FF; --on-accent:#0A1226; --accent-soft:#1D2D57;
+  --ok:#5BD08F; --ok-soft:#14352A; --warn:#F2B552; --warn-soft:#3A2D0F; --bad:#FF8A80; --bad-soft:#3E1B19; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.45;
+  padding-block:20px 96px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body.lock{overflow:hidden}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{font-family:var(--font-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:26px;line-height:1.1}
+h2{font-size:19px}
+h3{font-size:16px}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.top .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:10px 14px;font-weight:600;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.wa{background:var(--ok);border-color:var(--ok);color:#fff}
+:root[data-theme="dark"] .btn.wa{color:#07210F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.wa{color:#07210F}}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.btn.sm{min-height:38px;padding:7px 12px;font-size:14px}
+.btn.ghost{background:transparent}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.hero{background:var(--accent);color:var(--on-accent);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.hero .label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.hero .big{font-family:var(--font-display);font-size:38px;font-weight:700;line-height:1}
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.28);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--on-accent);border-radius:99px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.stat b{display:block;font-family:var(--font-display);font-size:20px}
+.stat span{font-size:12px;color:var(--muted)}
+
+.chip{display:inline-flex;align-items:center;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.chip.nouvelle{background:var(--warn-soft);color:var(--warn)}
+.chip.payee{background:var(--accent-soft);color:var(--accent)}
+.chip.livree{background:var(--ok-soft);color:var(--ok)}
+.chip.annulee{background:var(--bad-soft);color:var(--bad)}
+.chip.ex{background:var(--surface2);color:var(--muted)}
+
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+.filters button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 14px;white-space:nowrap;font-weight:500;min-height:38px}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.order{display:flex;flex-direction:column;gap:10px}
+.order .row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.order .who{font-weight:600;overflow-wrap:anywhere}
+.order .tot{font-family:var(--font-display);font-size:18px;font-weight:700;text-align:right}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.todo{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.todo:first-child{border-top:0;padding-top:0}
+.todo>div{min-width:0}
+.todo b{overflow-wrap:anywhere}
+
+.empty{border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--muted)}
+.notice{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:12px 14px;font-size:14px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+
+label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--muted)}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;width:100%;font-weight:400;color:var(--ink)}
+textarea{min-height:130px;resize:vertical;line-height:1.45}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.form{display:flex;flex-direction:column;gap:12px}
+.err{color:var(--bad);font-size:13px;min-height:0}
+.sum{background:var(--accent-soft);color:var(--ink);border-radius:12px;padding:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sum b{font-family:var(--font-display);font-size:18px}
+
+#sheet{position:fixed;inset:0;z-index:30;background:rgba(5,10,25,.55);display:flex;align-items:flex-end;justify-content:center}
+#sheet[hidden]{display:none}
+.panel{background:var(--surface);width:100%;max-width:640px;max-height:92%;overflow-y:auto;border-radius:18px 18px 0 0;padding:18px;
+  padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:14px}
+.panel .head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.types{display:flex;flex-wrap:wrap;gap:8px}
+.types button{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:7px 12px;font-size:14px;min-height:38px}
+.types button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:600}
+nav.tabs a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs a[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
+
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:14px;z-index:40;max-width:90%}
+#toast[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){.panel{animation:up .18s ease-out}@keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap" id="app"></div>
+<div id="sheet" hidden></div>
+<div id="toast" hidden></div>
+<nav class="tabs" aria-label="Navigation">
+  <a href="#accueil" data-v="accueil"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Accueil</a>
+  <a href="#commandes" data-v="commandes"><svg viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>Commandes</a>
+  <a href="#catalogue" data-v="catalogue"><svg viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/></svg>Catalogue</a>
+  <a href="#reglages" data-v="reglages"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Réglages</a>
+</nav>
+
+<script>
+(function(){
+var KEY='koravente:v1', S, view='accueil', filter='toutes', query='';
+var $=function(s,r){return (r||document).querySelector(s)};
+var app=$('#app'), sheet=$('#sheet'), toastEl=$('#toast');
+
+/* ---------- données ---------- */
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function uid(){return Math.random().toString(36).slice(2,9)}
+function fmt(n){return new Intl.NumberFormat('fr-FR').format(Math.round(n||0)).replace(/ | /g,' ')+' FCFA'}
+function num(v){var n=parseFloat(String(v).replace(',','.'));return isFinite(n)?n:0}
+function load(){try{var r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return null}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function seed(){
+  var now=Date.now(),h=3600000;
+  return {
+    settings:{shop:'Ma boutique',momoNum:'',momoName:'',hours:'8h à 20h',cc:'229',margin:30,goal:0,wa:''},
+    catalog:[
+      {id:uid(),name:'Sac à main noir',cost:2000,price:2900,ex:1},
+      {id:uid(),name:'Savon naturel vanille',cost:600,price:1000,ex:1},
+      {id:uid(),name:'Pagne 6 yards',cost:4500,price:5000,ex:1}
+    ],
+    orders:[
+      {id:uid(),date:now-2*h,client:'Aïcha',phone:'',item:'Sac à main noir',qty:1,price:2900,cost:2000,liv:500,frais:100,pay:'MTN MoMo',status:'nouvelle',note:'',ex:1},
+      {id:uid(),date:now-30*h,client:'Samuel',phone:'',item:'Savon naturel vanille',qty:3,price:1000,cost:600,liv:0,frais:0,pay:'MTN MoMo',status:'nouvelle',note:'',ex:1},
+      {id:uid(),date:now-26*h,client:'Fatou',phone:'',item:'Pagne 6 yards',qty:1,price:5000,cost:4500,liv:500,frais:150,pay:'MTN MoMo',status:'payee',note:'',ex:1},
+      {id:uid(),date:now-72*h,client:'Koffi',phone:'',item:'Sac à main noir',qty:2,price:2900,cost:2000,liv:1000,frais:200,pay:'Moov Money',status:'livree',note:'',ex:1}
+    ]
+  };
+}
+S=load()||seed();
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+S.settings=Object.assign({shop:'Ma boutique',momoNum:'',momoName:'',hours:'8h à 20h',cc:'229',margin:30,goal:0,wa:''},S.settings||{});
+S.catalog=S.catalog||[];S.orders=S.orders||[];
+S.created=S.created||S.orders.filter(function(o){return !o.ex}).length;
+S.lic=S.lic||null;S.setup=S.setup||0;
+
+function total(o){return o.qty*o.price+(o.liv||0)}
+function profit(o){return total(o)-o.qty*o.cost-(o.frais||0)}
+function counted(o){return o.status==='payee'||o.status==='livree'}
+var STATUS={nouvelle:'Nouvelle',payee:'Payée',livree:'Livrée',annulee:'Annulée'};
+function ago(t){var m=Math.round((Date.now()-t)/60000);if(m<60)return 'il y a '+Math.max(m,1)+' min';var h=Math.round(m/60);if(h<24)return 'il y a '+h+' h';var d=Math.round(h/24);return 'il y a '+d+' j'}
+function suggested(cost){var m=Math.min(Math.max(num(S.settings.margin),0),90)/100;return Math.ceil(cost/(1-m)/10)*10}
+
+/* ---------- version gratuite et activation ---------- */
+var FREE=5, SALT='kv-7Q3x-2026-Lm9';
+function h53(str,seed){var h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(var i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
+function codeFor(phone){var d=String(phone||'').replace(/\D/g,'').slice(-8);var v=('0000000000'+h53(SALT+d,7).toString(36).toUpperCase()).slice(-8);return v.slice(0,4)+'-'+v.slice(4)}
+function isLic(){return !!(S.lic&&S.lic.ok)}
+function leftTxt(){var l=Math.max(0,FREE-(S.created||0));return l+' commande'+(l>1?'s':'')+' gratuite'+(l>1?'s':'')+' restante'+(l>1?'s':'')}
+function planBanner(){if(isLic())return '';return '<div class="notice"><span>Version gratuite : '+leftTxt()+' sur '+FREE+'.</span><a class="btn sm" href="#reglages">Activer</a></div>'}
+function licSection(){
+  if(isLic())return '<section class="card"><h2>Version complète</h2><div><span class="chip livree">Activée</span></div><p class="small muted">Commandes illimitées. Merci pour ta confiance.</p></section>';
+  return '<section class="card"><h2>Version complète</h2><p class="small muted">Version gratuite : '+leftTxt()+' sur '+FREE+'. Entre ton code d\'activation pour avoir des commandes illimitées.</p><label>Code d\'activation<input id="s-code" autocapitalize="characters" autocomplete="off" placeholder="XXXX-XXXX"></label><div class="err" id="s-code-err" role="alert"></div><div class="actions"><button class="btn primary" data-act="activate">Activer</button></div><p class="small muted">Le code est lié à ton numéro WhatsApp. Écris-le d\'abord dans « Ma boutique », ci-dessus, tel que tu l\'as donné à la personne qui t\'a vendu l\'outil.</p></section>';
+}
+function activate(){
+  var c=($('#s-code').value||'').trim().toUpperCase(),err=$('#s-code-err');
+  if(!String(S.settings.wa||'').replace(/\D/g,'')){err.textContent='Écris d\'abord ton numéro WhatsApp.';return}
+  if(c&&c===codeFor(S.settings.wa)){S.lic={ok:1};save();render();toast('Version complète activée')}
+  else err.textContent='Code incorrect. Vérifie ton numéro WhatsApp et le code.';
+}
+function upsell(){
+  openSheet('<div class="head"><h3>Version gratuite terminée</h3><button class="btn sm ghost" id="x">Fermer</button></div><p>Tu as utilisé tes '+FREE+' commandes gratuites. Tes données sont conservées.</p><p class="muted">Pour continuer sans limite, demande ton code d\'activation à la personne qui t\'a donné ce lien, puis entre-le dans Réglages.</p><div class="actions"><a class="btn primary" href="#reglages" id="up-go">Aller dans Réglages</a></div>');
+  $('#x').onclick=closeSheet;$('#up-go').onclick=closeSheet;
+}
+function welcome(){
+  var s=S.settings;
+  openSheet('<h3>Bienvenue sur Kora Vente</h3><p class="muted">Note tes commandes, suis ton bénéfice et envoie des messages prêts à l\'emploi sur WhatsApp. Ces informations remplissent tes messages automatiquement. Tu pourras les changer dans Réglages.</p><div class="form"><label>Nom de ta boutique<input id="w-shop" value="'+esc(s.shop==='Ma boutique'?'':s.shop)+'" autocomplete="off"></label><label>Ton numéro WhatsApp<input id="w-wa" inputmode="tel" value="'+esc(s.wa)+'" placeholder="Ex. 01 XX XX XX XX"></label><div class="grid2"><label>Numéro Mobile Money<input id="w-momo" inputmode="tel" value="'+esc(s.momoNum)+'"></label><label>Nom sur le compte<input id="w-mn" value="'+esc(s.momoName)+'"></label></div><p class="small muted">Ton numéro Mobile Money sert à demander le paiement à tes clients.</p><p class="small muted">Astuce : dans le menu de ton navigateur, choisis « Ajouter à l\'écran d\'accueil » pour retrouver l\'outil comme une application. Ouvre toujours l\'outil depuis cette icône pour retrouver tes données.</p><div class="actions"><button class="btn primary" id="w-go">Commencer</button></div></div>');
+  $('#w-go').onclick=function(){var v=$('#w-shop').value.trim();if(v)S.settings.shop=v;S.settings.wa=$('#w-wa').value.trim();S.settings.momoNum=$('#w-momo').value.trim();S.settings.momoName=$('#w-mn').value.trim();S.setup=1;save();closeSheet();render()};
+}
+
+/* ---------- messages ---------- */
+var TYPES=[{k:'confirm',l:'Confirmer la commande'},{k:'pay',l:'Demander le paiement'},{k:'paid',l:'Paiement reçu'},{k:'ship',l:'Livraison en route'},{k:'thanks',l:'Remercier'},{k:'relance',l:'Relancer'}];
+function firstName(c){return String(c||'').trim().split(/\s+/)[0]||'client'}
+function message(k,o){
+  var s=S.settings, shop=s.shop||'ma boutique', n=firstName(o.client), t=fmt(total(o));
+  var momo=s.momoNum?s.momoNum:'[ton numéro MoMo]', mn=s.momoName?s.momoName:'[ton nom]';
+  var M={
+    confirm:'Bonjour '+n+', voici ta commande chez '+shop+' :\n- Article : '+o.item+'\n- Quantité : '+o.qty+'\n- Prix : '+fmt(o.qty*o.price)+(o.liv?'\n- Livraison : '+fmt(o.liv):'')+'\n- Total : '+t+'\nC\'est correct ?',
+    pay:'Pour valider ta commande, envoie '+t+' par '+(o.pay||'Mobile Money')+' au '+momo+', nom : '+mn+'.\nDès que je reçois le SMS de confirmation, je prépare ta commande.',
+    paid:'Paiement bien reçu, merci '+n+' ! Ta commande ('+o.item+') est en préparation. Je te préviens quand elle part.',
+    ship:'Bonne nouvelle '+n+' : ta commande est en route ! Garde ton téléphone allumé, je suis joignable de '+(s.hours||'8h à 20h')+'.',
+    thanks:'Merci pour ta confiance, '+n+' ! J\'espère que '+o.item+' te plaît. Si tu es satisfait(e), un petit message ou une recommandation à un ami me ferait très plaisir.',
+    relance:'Bonjour '+n+', je reviens vers toi au sujet de '+o.item+'. Il est toujours disponible aujourd\'hui. Souhaites-tu que je te le réserve ?'
+  };
+  return M[k];
+}
+function defaultType(o){return o.status==='nouvelle'?(Date.now()-o.date>24*3600000?'relance':'pay'):o.status==='payee'?'ship':o.status==='livree'?'thanks':'confirm'}
+function waNumber(p){
+  var d=String(p||'').replace(/\D/g,'');if(!d)return '';
+  if(d.indexOf('00')===0)d=d.slice(2);
+  var cc=String(S.settings.cc||'229').replace(/\D/g,'');
+  if(cc&&d.indexOf(cc)!==0)d=cc+d;
+  return d;
+}
+function waLink(o,text){var n=waNumber(o.phone);return 'https://wa.me/'+n+'?text='+encodeURIComponent(text)}
+
+/* ---------- utilitaires interface ---------- */
+function toast(t){toastEl.textContent=t;toastEl.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){toastEl.hidden=true},2600)}
+function openSheet(html){sheet.innerHTML='<div class="panel" role="dialog" aria-modal="true">'+html+'</div>';sheet.hidden=false;document.body.classList.add('lock')}
+function closeSheet(){sheet.hidden=true;sheet.innerHTML='';document.body.classList.remove('lock')}
+sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+function confirmSheet(title,text,yes,fn,danger){
+  openSheet('<h3>'+esc(title)+'</h3><p class="muted">'+esc(text)+'</p><div class="actions"><button class="btn'+(danger?' danger':' primary')+'" id="c-yes">'+esc(yes)+'</button><button class="btn" id="c-no">Annuler</button></div>');
+  $('#c-yes').onclick=function(){closeSheet();fn()};$('#c-no').onclick=closeSheet;
+}
+function copyText(txt,ta){
+  function fallback(){try{ta.focus();ta.select();var ok=document.execCommand&&document.execCommand('copy');toast(ok?'Message copié':'Texte sélectionné : appuie longuement pour copier')}catch(e){toast('Texte sélectionné : appuie longuement pour copier')}}
+  try{navigator.clipboard.writeText(txt).then(function(){toast('Message copié')},fallback)}catch(e){fallback()}
+}
+
+/* ---------- vues ---------- */
+function stats(){
+  var ca=0,b=0,att=0,liv=0;
+  S.orders.forEach(function(o){if(counted(o)){ca+=total(o);b+=profit(o)}if(o.status==='nouvelle')att++;if(o.status==='payee')liv++});
+  return {ca:ca,b:b,att:att,liv:liv};
+}
+function hasExamples(){return S.orders.some(function(o){return o.ex})||S.catalog.some(function(i){return i.ex})}
+function exBanner(){return hasExamples()?'<div class="notice"><span>Les commandes et articles marqués « Exemple » sont là pour te montrer l\'outil.</span><button class="btn sm" data-act="clear-ex">Effacer les exemples</button></div>':''}
+
+function vAccueil(){
+  var st=stats(),goal=Math.max(num(S.settings.goal),0),pct=goal>0?Math.min(100,Math.round(st.ca/goal*100)):0;
+  var todo=[];
+  S.orders.forEach(function(o){
+    if(o.status==='nouvelle'){var late=Date.now()-o.date>24*3600000;todo.push({o:o,k:late?'relance':'pay',t:late?'À relancer':'En attente de paiement',p:late?0:1})}
+    else if(o.status==='payee')todo.push({o:o,k:'ship',t:'Payée, à livrer',p:2});
+  });
+  todo.sort(function(a,b){return a.p-b.p});
+  var low=S.catalog.filter(function(i){return i.price>0&&(i.price-i.cost)/i.price<0.15});
+  var h='<div class="top"><div><div class="eyebrow">'+esc(S.settings.shop)+'</div><h1>Mes ventes</h1></div><button class="btn primary" data-act="new-order">Nouvelle commande</button></div>';
+  h+=exBanner();h+=planBanner();
+  h+='<section class="hero"><div class="label">Encaissé (commandes payées et livrées)</div><div class="big num">'+fmt(st.ca)+'</div>'+(goal>0?'<div class="bar" aria-hidden="true"><i style="width:'+pct+'%"></i></div><div class="small">'+pct+' % de ton objectif de '+fmt(goal)+'</div>':'<div class="small">Tu peux fixer un objectif de ventes dans Réglages (facultatif).</div>')+'</section>';
+  h+='<div class="stats"><div class="stat"><b class="num">'+fmt(st.b).replace(' FCFA','')+'</b><span>Bénéfice (FCFA)</span></div><div class="stat"><b class="num">'+st.att+'</b><span>En attente de paiement</span></div><div class="stat"><b class="num">'+st.liv+'</b><span>À livrer</span></div></div>';
+  h+='<section class="card"><h2>À faire maintenant</h2>';
+  if(!todo.length)h+='<p class="muted">Rien d\'urgent. Quand un client écrit, ajoute sa commande.</p>';
+  todo.slice(0,6).forEach(function(x){
+    h+='<div class="todo"><div><b>'+esc(x.o.client)+'</b><div class="small muted">'+esc(x.t)+' · '+esc(x.o.item)+' · '+ago(x.o.date)+'</div></div><button class="btn sm wa" data-act="msg" data-id="'+x.o.id+'" data-k="'+x.k+'">Message</button></div>';
+  });
+  h+='</section>';
+  if(low.length){h+='<section class="card"><h2>Marges à surveiller</h2>';low.forEach(function(i){h+='<div class="small"><b>'+esc(i.name)+'</b> : bénéfice de '+fmt(i.price-i.cost)+' seulement. Prix conseillé pour '+S.settings.margin+' % de marge : '+fmt(suggested(i.cost))+'.</div>'});h+='</section>'}
+  return h;
+}
+
+function orderCard(o){
+  var p=profit(o),canMsg=o.status!=='annulee';
+  var h='<article class="card order"><div class="row"><div><div class="who">'+esc(o.client)+(o.ex?' <span class="chip ex">Exemple</span>':'')+'</div><div class="small muted">'+o.qty+' × '+esc(o.item)+' · '+ago(o.date)+'</div></div><div><div class="tot num">'+fmt(total(o))+'</div><div class="small num" style="text-align:right;color:'+(p<0?'var(--bad)':'var(--ok)')+'">Bénéfice '+fmt(p)+'</div></div></div>';
+  h+='<div class="row"><span class="chip '+o.status+'">'+STATUS[o.status]+'</span><span class="small muted">'+esc(o.pay||'')+'</span></div><div class="actions">';
+  if(canMsg)h+='<button class="btn sm wa" data-act="msg" data-id="'+o.id+'" data-k="'+defaultType(o)+'">Message WhatsApp</button>';
+  if(o.status==='nouvelle')h+='<button class="btn sm primary" data-act="paid" data-id="'+o.id+'">Marquer payée</button>';
+  if(o.status==='payee')h+='<button class="btn sm primary" data-act="delivered" data-id="'+o.id+'">Marquer livrée</button>';
+  h+='<button class="btn sm ghost" data-act="edit-order" data-id="'+o.id+'">Modifier</button></div></article>';
+  return h;
+}
+function vCommandes(){
+  var list=S.orders.slice().sort(function(a,b){return b.date-a.date}).filter(function(o){
+    if(filter!=='toutes'&&o.status!==filter)return false;
+    if(query&&(o.client+' '+o.item).toLowerCase().indexOf(query.toLowerCase())<0)return false;return true});
+  var F=[['toutes','Toutes'],['nouvelle','Nouvelles'],['payee','Payées'],['livree','Livrées'],['annulee','Annulées']];
+  var h='<div class="top"><h1>Commandes</h1><button class="btn primary" data-act="new-order">Nouvelle commande</button></div>'+exBanner();
+  h+='<div class="filters" role="group" aria-label="Filtrer par statut">'+F.map(function(f){return '<button data-filter="'+f[0]+'" aria-pressed="'+(filter===f[0])+'">'+f[1]+'</button>'}).join('')+'</div>';
+  h+='<label>Rechercher<input id="q" type="search" placeholder="Nom du client ou article" value="'+esc(query)+'"></label>';
+  h+=list.length?'<div id="olist" style="display:flex;flex-direction:column;gap:12px">'+list.map(orderCard).join('')+'</div>':'<div class="empty" id="olist">Aucune commande ici. Ajoute celle de ton prochain client.</div>';
+  return h;
+}
+function vCatalogue(){
+  var h='<div class="top"><h1>Catalogue</h1><button class="btn primary" data-act="new-item">Ajouter un article</button></div>'+exBanner();
+  h+='<p class="muted small">Entre ton coût de revient (achat + transport + emballage). L\'outil calcule ton bénéfice et te conseille un prix pour '+esc(S.settings.margin)+' % de marge.</p>';
+  if(!S.catalog.length)h+='<div class="empty">Ton catalogue est vide. Ajoute ton premier article.</div>';
+  S.catalog.forEach(function(i){
+    var b=i.price-i.cost,m=i.price>0?Math.round(b/i.price*100):0,bad=m<15;
+    h+='<article class="card"><div class="order"><div class="row" style="display:flex;justify-content:space-between;gap:10px"><div class="who" style="font-weight:600;overflow-wrap:anywhere">'+esc(i.name)+(i.ex?' <span class="chip ex">Exemple</span>':'')+'</div><span class="chip '+(bad?'nouvelle':'livree')+'">Marge '+m+' %</span></div>'+
+      '<div class="small muted num">Coût '+fmt(i.cost)+' · Vente '+fmt(i.price)+' · Bénéfice '+fmt(b)+'</div>'+
+      '<div class="small">Prix conseillé : <b class="num">'+fmt(suggested(i.cost))+'</b></div><div class="actions"><button class="btn sm ghost" data-act="edit-item" data-id="'+i.id+'">Modifier</button></div></div></article>';
+  });
+  return h;
+}
+function vReglages(){
+  var s=S.settings;
+  var h='<div class="top"><h1>Réglages</h1></div>';
+  h+='<section class="card"><h2>Ma boutique</h2><div class="form">'+
+    '<label>Nom de la boutique<input id="s-shop" value="'+esc(s.shop)+'"></label>'+'<label>Ton numéro WhatsApp<input id="s-wa" inputmode="tel" value="'+esc(s.wa)+'" placeholder="Ex. 01 XX XX XX XX"></label>'+
+    '<div class="grid2"><label>Numéro Mobile Money<input id="s-momo" inputmode="tel" value="'+esc(s.momoNum)+'" placeholder="Ex. 01 XX XX XX XX"></label><label>Nom sur le compte<input id="s-momoname" value="'+esc(s.momoName)+'"></label></div>'+
+    '<div class="grid2"><label>Heures de réponse<input id="s-hours" value="'+esc(s.hours)+'"></label><label>Indicatif pays<input id="s-cc" inputmode="numeric" value="'+esc(s.cc)+'"></label></div>'+
+    '<div class="grid2"><label>Marge visée (%)<input id="s-margin" inputmode="numeric" value="'+esc(s.margin)+'"></label><label>Objectif de ventes (FCFA)<input id="s-goal" inputmode="numeric" value="'+esc(s.goal)+'"></label></div>'+
+    '</div><p class="small muted">Ces infos remplissent tes messages automatiquement. L\'indicatif sert à ouvrir le bon contact dans WhatsApp.</p></section>';
+  h+=licSection();h+='<section class="card"><h2>Sauvegarde</h2><p class="small muted">Tes données restent dans ce navigateur, sur cet appareil. Si tu effaces les données du navigateur, elles disparaissent. Copie ta sauvegarde de temps en temps et garde-la dans tes notes.</p><div class="actions"><button class="btn" data-act="backup">Afficher ma sauvegarde</button><button class="btn" data-act="restore">Restaurer</button></div></section>';
+  h+='<section class="card"><h2>Données</h2><div class="actions">'+(hasExamples()?'<button class="btn" data-act="clear-ex">Effacer les exemples</button>':'')+'<button class="btn danger" data-act="wipe">Tout effacer</button></div></section>';
+  return h;
+}
+
+function render(){
+  var map={accueil:vAccueil,commandes:vCommandes,catalogue:vCatalogue,reglages:vReglages};
+  if(!map[view])view='accueil';
+  app.innerHTML=map[view]();
+  document.querySelectorAll('nav.tabs a').forEach(function(a){if(a.dataset.v===view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  if(view==='reglages')bindSettings();
+  if(view==='commandes'){var q=$('#q');if(q)q.oninput=function(){query=q.value;var cur=q.selectionStart;render();var n=$('#q');n.focus();try{n.setSelectionRange(cur,cur)}catch(e){}}}
+}
+function route(){var h=(location.hash||'').replace('#','');view=h||'accueil';render();window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);
+if(!S.setup)setTimeout(welcome,0);
+
+/* ---------- formulaires ---------- */
+function orderForm(o){
+  var n=!o,d=o||{client:'',phone:'',item:'',qty:1,price:'',cost:'',liv:0,frais:0,pay:'MTN MoMo',status:'nouvelle',note:''};
+  var pays=['MTN MoMo','Moov Money','Celtiis Cash','Espèces','Autre'];
+  openSheet('<div class="head"><h3>'+(n?'Nouvelle commande':'Modifier la commande')+'</h3><button class="btn sm ghost" id="x">Fermer</button></div><div class="form">'+
+   '<div class="grid2"><label>Client<input id="f-client" value="'+esc(d.client)+'" autocomplete="off"></label><label>Téléphone WhatsApp<input id="f-phone" inputmode="tel" value="'+esc(d.phone)+'"></label></div>'+
+   '<label>Article<input id="f-item" list="dl-items" value="'+esc(d.item)+'" autocomplete="off"></label><datalist id="dl-items">'+S.catalog.map(function(i){return '<option value="'+esc(i.name)+'">'}).join('')+'</datalist>'+
+   '<div class="grid2"><label>Quantité<input id="f-qty" inputmode="numeric" value="'+d.qty+'"></label><label>Prix unitaire<input id="f-price" inputmode="numeric" value="'+esc(d.price)+'"></label></div>'+
+   '<div class="grid2"><label>Coût de revient unitaire<input id="f-cost" inputmode="numeric" value="'+esc(d.cost)+'"></label><label>Livraison facturée au client<input id="f-liv" inputmode="numeric" value="'+esc(d.liv)+'"></label></div>'+
+   '<div class="grid2"><label>Mes frais (transport, retrait)<input id="f-frais" inputmode="numeric" value="'+esc(d.frais)+'"></label><label>Paiement<select id="f-pay">'+pays.map(function(p){return '<option'+(p===d.pay?' selected':'')+'>'+p+'</option>'}).join('')+'</select></label></div>'+
+   (n?'':'<label>Statut<select id="f-status">'+Object.keys(STATUS).map(function(k){return '<option value="'+k+'"'+(k===d.status?' selected':'')+'>'+STATUS[k]+'</option>'}).join('')+'</select></label>')+
+   '<label>Note (adresse, remarque)<input id="f-note" value="'+esc(d.note)+'"></label>'+
+   '<div class="sum"><span>Total à payer <b class="num" id="s-tot"></b></span><span>Bénéfice <b class="num" id="s-ben"></b></span></div><div class="err" id="f-err" role="alert"></div>'+
+   '<div class="actions"><button class="btn primary" id="f-save">Enregistrer</button>'+(n?'':'<button class="btn danger" id="f-del">Supprimer</button>')+'</div></div>');
+  function read(){return {qty:Math.max(1,Math.round(num($('#f-qty').value))||1),price:num($('#f-price').value),cost:num($('#f-cost').value),liv:num($('#f-liv').value),frais:num($('#f-frais').value)}}
+  function upd(){var r=read();$('#s-tot').textContent=fmt(total(r));var b=profit(r);$('#s-ben').textContent=fmt(b);$('#s-ben').style.color=b<0?'var(--bad)':'var(--ok)'}
+  ['f-qty','f-price','f-cost','f-liv','f-frais'].forEach(function(id){$('#'+id).oninput=upd});
+  $('#f-item').onchange=function(){var v=$('#f-item').value.trim().toLowerCase();var it=S.catalog.filter(function(i){return i.name.toLowerCase()===v})[0];if(it){$('#f-price').value=it.price;$('#f-cost').value=it.cost;upd()}};
+  upd();
+  $('#x').onclick=closeSheet;
+  $('#f-save').onclick=function(){
+    var r=read(),client=$('#f-client').value.trim(),item=$('#f-item').value.trim(),err=$('#f-err');
+    if(!client){err.textContent='Écris le nom du client.';return}
+    if(!item){err.textContent='Écris l\'article commandé.';return}
+    if(!(r.price>0)){err.textContent='Entre le prix unitaire.';return}
+    var rec=Object.assign({},o||{id:uid(),date:Date.now(),status:'nouvelle'},r,{client:client,phone:$('#f-phone').value.trim(),item:item,pay:$('#f-pay').value,note:$('#f-note').value.trim()});
+    if(!n)rec.status=$('#f-status').value;
+    if(n){S.orders.push(rec);S.created=(S.created||0)+1}else S.orders=S.orders.map(function(x){return x.id===rec.id?rec:x});
+    save();closeSheet();render();toast(n?'Commande ajoutée':'Commande modifiée');
+    if(n)msgSheet(rec,'confirm');
+  };
+  if(!n)$('#f-del').onclick=function(){confirmSheet('Supprimer cette commande ?','Cette action ne peut pas être annulée.','Supprimer',function(){S.orders=S.orders.filter(function(x){return x.id!==o.id});save();render();toast('Commande supprimée')},true)};
+}
+function itemForm(i){
+  var n=!i,d=i||{name:'',cost:'',price:''};
+  openSheet('<div class="head"><h3>'+(n?'Nouvel article':'Modifier l\'article')+'</h3><button class="btn sm ghost" id="x">Fermer</button></div><div class="form">'+
+   '<label>Nom de l\'article<input id="i-name" value="'+esc(d.name)+'"></label>'+
+   '<div class="grid2"><label>Coût de revient<input id="i-cost" inputmode="numeric" value="'+esc(d.cost)+'"></label><label>Prix de vente<input id="i-price" inputmode="numeric" value="'+esc(d.price)+'"></label></div>'+
+   '<div class="sum"><span>Bénéfice <b class="num" id="i-ben"></b></span><span>Marge <b class="num" id="i-mar"></b></span></div>'+
+   '<div class="small muted">Prix conseillé pour '+esc(S.settings.margin)+' % de marge : <b class="num" id="i-sug"></b> <button class="btn sm ghost" id="i-use" type="button">Utiliser</button></div>'+
+   '<div class="err" id="i-err" role="alert"></div><div class="actions"><button class="btn primary" id="i-save">Enregistrer</button>'+(n?'':'<button class="btn danger" id="i-del">Supprimer</button>')+'</div></div>');
+  function upd(){var c=num($('#i-cost').value),p=num($('#i-price').value);$('#i-ben').textContent=fmt(p-c);$('#i-mar').textContent=(p>0?Math.round((p-c)/p*100):0)+' %';$('#i-sug').textContent=c>0?fmt(suggested(c)):'-'}
+  $('#i-cost').oninput=upd;$('#i-price').oninput=upd;upd();
+  $('#i-use').onclick=function(){var c=num($('#i-cost').value);if(c>0){$('#i-price').value=suggested(c);upd()}};
+  $('#x').onclick=closeSheet;
+  $('#i-save').onclick=function(){
+    var name=$('#i-name').value.trim(),c=num($('#i-cost').value),p=num($('#i-price').value);
+    if(!name){$('#i-err').textContent='Écris le nom de l\'article.';return}
+    if(!(p>0)){$('#i-err').textContent='Entre le prix de vente.';return}
+    var rec=Object.assign({},i||{id:uid()},{name:name,cost:c,price:p});
+    if(n)S.catalog.push(rec);else S.catalog=S.catalog.map(function(x){return x.id===rec.id?rec:x});
+    save();closeSheet();render();toast('Article enregistré');
+  };
+  if(!n)$('#i-del').onclick=function(){confirmSheet('Supprimer cet article ?','Les commandes déjà enregistrées ne changent pas.','Supprimer',function(){S.catalog=S.catalog.filter(function(x){return x.id!==i.id});save();render()},true)};
+}
+function msgSheet(o,k){
+  var cur=k||defaultType(o);
+  var warn=(cur==='pay'&&!S.settings.momoNum)?'<div class="notice"><span>Ajoute ton numéro Mobile Money dans Réglages pour qu\'il apparaisse dans le message.</span><a class="btn sm" href="#reglages" id="goset">Réglages</a></div>':'';
+  openSheet('<div class="head"><h3>Message pour '+esc(firstName(o.client))+'</h3><button class="btn sm ghost" id="x">Fermer</button></div>'+
+   '<div class="types" id="types">'+TYPES.map(function(t){return '<button data-k="'+t.k+'" aria-pressed="'+(t.k===cur)+'">'+t.l+'</button>'}).join('')+'</div><div id="warn">'+warn+'</div>'+
+   '<label>Message (tu peux le modifier)<textarea id="m-text"></textarea></label>'+
+   (o.phone?'':'<p class="small muted">Pas de numéro enregistré : WhatsApp te laissera choisir le contact.</p>')+
+   '<div class="actions"><a class="btn wa" id="m-wa" target="_blank" rel="noopener">Ouvrir dans WhatsApp</a><button class="btn" id="m-copy">Copier</button></div>'+
+   '<p class="small muted">Rien n\'est envoyé tant que tu n\'appuies pas sur « Envoyer » dans WhatsApp.</p>');
+  var ta=$('#m-text');
+  function setType(kk){cur=kk;ta.value=message(kk,o);document.querySelectorAll('#types button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===kk)});link()}
+  function link(){$('#m-wa').href=waLink(o,ta.value)}
+  ta.oninput=link;
+  $('#types').onclick=function(e){var b=e.target.closest('button');if(b)setType(b.dataset.k)};
+  $('#m-copy').onclick=function(){copyText(ta.value,ta)};
+  $('#x').onclick=closeSheet;
+  var g=$('#goset');if(g)g.onclick=closeSheet;
+  setType(cur);
+}
+
+/* ---------- réglages ---------- */
+function bindSettings(){
+  var map={'s-shop':'shop','s-wa':'wa','s-momo':'momoNum','s-momoname':'momoName','s-hours':'hours','s-cc':'cc','s-margin':'margin','s-goal':'goal'};
+  Object.keys(map).forEach(function(id){var el=$('#'+id);el.oninput=function(){var v=el.value;if(id==='s-margin'||id==='s-goal')v=num(v);S.settings[map[id]]=v;save()}});
+}
+
+/* ---------- actions ---------- */
+function byId(id){return S.orders.filter(function(o){return o.id===id})[0]}
+document.addEventListener('click',function(e){
+  var f=e.target.closest('[data-filter]');if(f){filter=f.dataset.filter;render();return}
+  var b=e.target.closest('[data-act]');if(!b)return;
+  var a=b.dataset.act,id=b.dataset.id,o=id?byId(id):null;
+  if(a==='new-order'){if(!isLic()&&S.created>=FREE)upsell();else orderForm(null)}
+  else if(a==='edit-order'&&o)orderForm(o);
+  else if(a==='msg'&&o)msgSheet(o,b.dataset.k);
+  else if(a==='paid'&&o)confirmSheet('Paiement reçu ?','Marque la commande payée seulement si tu as vu le SMS de confirmation de ton opérateur avec le bon montant. Une capture d\'écran ne suffit pas.','Oui, SMS reçu',function(){o.status='payee';save();render();toast('Commande payée');msgSheet(o,'paid')});
+  else if(a==='delivered'&&o){o.status='livree';save();render();toast('Commande livrée');msgSheet(o,'thanks')}
+  else if(a==='new-item')itemForm(null);
+  else if(a==='edit-item'){itemForm(S.catalog.filter(function(i){return i.id===id})[0])}
+  else if(a==='clear-ex')confirmSheet('Effacer les exemples ?','Seuls les éléments marqués « Exemple » seront supprimés. Tes vraies données restent.','Effacer',function(){S.orders=S.orders.filter(function(x){return !x.ex});S.catalog=S.catalog.filter(function(x){return !x.ex});save();render()});
+  else if(a==='wipe')confirmSheet('Tout effacer ?','Commandes, catalogue et réglages seront supprimés de cet appareil.','Tout effacer',function(){S=seed();S.orders=[];S.catalog=[];save();render()},true);
+  else if(a==='activate')activate();
+  else if(a==='backup'){openSheet('<div class="head"><h3>Ma sauvegarde</h3><button class="btn sm ghost" id="x">Fermer</button></div><textarea id="bk" readonly></textarea><div class="actions"><button class="btn primary" id="bk-copy">Copier</button></div>');$('#bk').value=JSON.stringify(S);$('#x').onclick=closeSheet;$('#bk-copy').onclick=function(){copyText($('#bk').value,$('#bk'))}}
+  else if(a==='restore'){openSheet('<div class="head"><h3>Restaurer</h3><button class="btn sm ghost" id="x">Fermer</button></div><p class="small muted">Colle ici ta sauvegarde. Elle remplacera les données actuelles.</p><textarea id="rs"></textarea><div class="err" id="rs-err"></div><div class="actions"><button class="btn primary" id="rs-go">Restaurer</button></div>');$('#x').onclick=closeSheet;$('#rs-go').onclick=function(){try{var d=JSON.parse($('#rs').value);if(!d||!Array.isArray(d.orders)||!Array.isArray(d.catalog))throw 0;S=d;S.settings=Object.assign({shop:'Ma boutique',momoNum:'',momoName:'',hours:'8h à 20h',cc:'229',margin:30,goal:0,wa:''},S.settings||{});save();closeSheet();render();toast('Sauvegarde restaurée')}catch(x){$('#rs-err').textContent='Ce texte n\'est pas une sauvegarde valide.'}}}
+});
+
+route();
+})();
+</script>
+
+</body>
+</html>
